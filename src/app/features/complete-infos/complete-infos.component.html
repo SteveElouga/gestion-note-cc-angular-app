@@ -1,0 +1,66 @@
+<div class="l-body">
+  <div class="contain">
+    <div class="form" [formGroup]="form">
+      <mat-form-field>
+        <mat-label>Noms</mat-label>
+        <input
+          matInput
+          placeholder="Elouga"
+          [formControl]="lastname"
+          required
+        />
+        <mat-error *ngIf="lastname.invalid">{{updateErrorMessage(lastname)}}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Prenoms</mat-label>
+        <input
+          matInput
+          placeholder="Steve"
+          [formControl]="firstname"
+          required
+        />
+        <mat-error *ngIf="firstname.invalid">{{updateErrorMessage(firstname)}}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input
+          matInput
+          placeholder="nyobeelouga@example.com"
+          [formControl]="email"
+          required
+        />
+        <mat-error *ngIf="email.invalid">{{updateErrorMessage(email)}}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Telephone</mat-label>
+        <input
+          matInput
+          placeholder="6585522**"
+          [formControl]="tel"
+          required
+        />
+        <mat-error *ngIf="tel.invalid">{{updateErrorMessage(tel)}}</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Mot de passe</mat-label>
+        <input
+          matInput
+          placeholder="P@ssword123"
+          [formControl]="password"
+          required
+        />
+        <mat-error *ngIf="password.invalid">{{updateErrorMessage(password)}}</mat-error>
+      </mat-form-field>
+      <button class="submit" type="submit" mat-raised-button [disabled]="form.invalid" (click)="onSubmit()">Se
+                                                                                                          connecter</button>
+      <mat-spinner *ngIf="loader$ | async"></mat-spinner>
+    </div>
+    <div class="img">
+      <img src="pexels-tima-miroshnichenko-6550399.jpg">
+    </div>
+  </div>
+</div>
+

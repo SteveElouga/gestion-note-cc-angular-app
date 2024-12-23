@@ -1,0 +1,59 @@
+
+.on-reset{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.next, .back{
+  width: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+
+  mat-icon{
+    display: block;
+    margin: 0 auto;
+  }
+}
+.back{
+  left: 10px;
+  top: 10px;
+}
+
+.form.translated{
+  display: none;
+  transition: all 0.3s ease-in-out;
+  transform: translateX(-1000%);
+}
+
+.file-charged{
+  display: none;
+  opacity: 0;
+  transform: translateY(1000%);
+  top: 50%;
+  right: 50%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  backdrop-filter: blur(100px);
+  gap: 10px;
+  width: 100%;
+  height: 100%;
+}
+
+.file-charged.adding{
+  display: flex;
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.3s 0.2s ease-in-out;
+}
+
+.container {
+  z-index: 3;
+}

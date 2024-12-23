@@ -1,0 +1,42 @@
+.form{
+  width: 300px;
+  padding: 20px;
+}
+mat-form-field{
+  width: 100%;
+}
+small{
+  color: #f44336;
+  text-align: start;
+}
+.small{
+  width: 100%;
+}
+
+.snack-bar-success{
+  background-color: #4caf50 !important;
+  color: white !important;
+
+  animation: fadeIn 0.5s, fadeOut 0.5s 2.5s !important;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1}
+}
+
+@keyframes fadeOut {
+  from {opacity: 1;}
+  to {opacity: 0}
+}
+
+.snack-bar-error {
+  background-color: #f44336 !important; /* Rouge */
+  color: white;
+}
+
+@media (max-width: 700px) {
+  .form{
+    width: 250px;
+  }
+}

@@ -1,0 +1,48 @@
+.card{
+  color: #fff;
+  margin: 100px 40px;
+  background-color: #024474;
+  padding: 20px;
+  width: fit-content;
+}
+.card-title{
+  &:hover{
+    cursor: pointer;
+    .entete{
+      background-color: white;
+      transition: all 0.2s ease-in-out;
+    }
+    mat-icon{
+      color: #024474;
+    }
+  }
+}
+
+.password-modify{
+  cursor: pointer;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  margin: 0 40px;
+  background-color: rgba(2, 68, 116, 0.5);
+  padding: 0 10px;
+  width: fit-content;
+  border-radius: 10px;
+
+  &:hover{
+    transition: all 0.2s ease-in-out;
+    background-color: #024474;
+  }
+}
+
+@media (max-width: 700px){
+  .card, .entete, .password-modify{
+    font-size: 10px;
+  }
+
+  .card-title{
+    font-size: 12px;
+  }
+}

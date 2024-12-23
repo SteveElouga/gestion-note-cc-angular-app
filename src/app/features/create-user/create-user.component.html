@@ -1,0 +1,116 @@
+<div class="container" *ngIf="loader$ | async">
+  <mat-spinner></mat-spinner>
+</div>
+<div class="l-body">
+  <img src="image.jpg">
+  <div class="image-back"></div>
+  <div class="contain">
+    <div class="file-charged" #fileCharged>
+      <p style="color: yellow; padding: 20px; position: absolute; top: 50px; left: 20px">Consigne: <br>Votre fichier
+                                                                                         excel doit contenir
+                                                                                         obligatoirement les colonnes
+                                                                                         "matricule" et "filiere",
+                                                                                         au risque de ne pas etre
+                                                                                         traite.</p>
+      <input
+        type="file"
+        (change)="onFileSelected($event)"
+        #fileInput
+        hidden
+      />
+      <p style="color: black">{{fileName}}</p>
+      <button mat-raised-button (click)="fileInput.click()">Choisir un fichier</button>
+      <button mat-raised-button (click)="uploadFile()">Envoyer</button>
+      <mat-spinner *ngIf="loader$ | async"></mat-spinner>
+      <button mat-raised-button class="next" matTooltip="Revenir a la creation manuelle" (click)="translate()"
+              matTooltipPosition="above">
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+    </div>
+    <div class="form" [formGroup]="form" #element>
+      <button mat-raised-button class="next" matTooltip="Charger un fichier excel" (click)="translate()"
+              matTooltipPosition="above">
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+      <button class="back" matTooltip="Retour a la page d'acceuil" mat-raised-button (click)="onDashboard()"
+               matTooltipPosition="below">
+        <mat-icon>west</mat-icon>
+      </button>
+      <button matTooltip="Aller a la liste des utilisateurs" matTooltipPosition="above" style="margin: 10px; width:
+      200px" mat-raised-button
+              (click)="onUserList()">
+        Utilisateurs
+      </button>
+      <mat-form-field>
+        <mat-label>Filere</mat-label>
+        <mat-select [formControl]="filiere">
+          <mat-option *ngFor="let filiere of filieres" [value]="filiere">{{filiere}}</mat-option>
+        </mat-select>
+        <mat-hint align="start">S'il est etudiant, quelle est sa filiere?</mat-hint>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Roles</mat-label>
+        <mat-select [formControl]="role">
+          <mat-option *ngFor="let role of roles" [value]="role">{{role | uppercase}}</mat-option>
+        </mat-select>
+        <mat-hint align="start">Quel role attribuez-vous a cet utilisateur?</mat-hint>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Departement</mat-label>
+        <mat-select [formControl]="departement">
+          <mat-option *ngFor="let departement of departements" [value]="departement">{{departement}}</mat-option>
+        </mat-select>
+        <mat-hint align="start">S'il n'est pas etudiant, quel est son departement?</mat-hint>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Matricule</mat-label>
+        <input matInput maxlength="256" placeholder="Ex 19G00219" [formControl]="matricule">
+        <mat-hint align="start">Matricule</mat-hint>
+      </mat-form-field>
+
+      <div class="on-reset">
+        <button style="margin: 10px;
+         width: 200px" mat-raised-button
+                (click)="onFormReset()"
+                class="demo-button">
+          Vider le formulaire
+        </button>
+
+        <button mat-raised-button [disabled]="form.invalid" (click)="createUser()" class="demo-button">
+          Creer l'utilisateur
+        </button>
+
+        <!--    <button mat-raised-button (click)="updateEvaluation()" class="demo-button"-->
+        <!--            *ngIf="showButtonUpdate">-->
+        <!--      Modifier cette evaluation-->
+        <!--    </button>-->
+      </div>
+
+    </div>
+    <div class="img">
+      <img src="pexels-newmanphotographs-17192519.jpg">
+    </div>
+  </div>
+</div>
+<div>
+  <ng-template #snackTemplateError class="snack-bar-error">
+    <div style="color:white">
+      <span>Une erreur s'est produite !</span>
+    </div>
+  </ng-template>
+
+  <ng-template #snackTemplate>
+    <div class="snack-bar" style="color:white">
+      <span>Nouvel utilisateur cree !</span>
+    </div>
+  </ng-template>
+
+  <ng-template #snackTemplateExcel>
+    <div class="snack-bar" style="color:white">
+      <span>Operation effectuee avec succes !</span>
+    </div>
+  </ng-template>
+</div>

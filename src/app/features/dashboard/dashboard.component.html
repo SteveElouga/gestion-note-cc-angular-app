@@ -1,0 +1,90 @@
+<div class="dashboard">
+  <div class="side-bar">
+    <div class="logo">
+      <img class="lg" src="1659624283297logo.png">
+      <div class="name-app">
+        ControlENSPD
+      </div>
+    </div>
+    <div class="rubric box">
+      <div class="rub-ric" [ngClass]="{'rubric-item' : evaluation}" (click)="showEvaluation()">Mes evaluations</div>
+      <div class="rub-ric" [ngClass]="{'rubric-item' : matiere}" (click)="showMatiere()">Mes Matieres</div>
+      <div class="rub-ric" [ngClass]="{'rubric-item' : note}" (click)="showNotes()">Notes</div>
+      <div class="rub-ric" [ngClass]="{'rubric-item' : edp}" (click)="showEdp()">Mon emploi du temps</div>
+      <div class="rub-ric" [ngClass]="{'rubric-item' : fromUserGestion}" *ngIf="isAdmin"
+           (click)="onCreateUser()">Gestion des utilisateurs
+      </div>
+    </div>
+    <div class="box">
+      <div (click)="logout()" class="logout box"
+           style="display: flex; justify-content: space-between; align-items: center">
+        <div>
+          Logout
+        </div>
+        <mat-icon style="margin-right: 50px">logout</mat-icon>
+      </div>
+    </div>
+  </div>
+  <div class="principal">
+    <img class="lg lg-principal" src="1659624283297logo.png">
+    <div class="welcome" *ngIf="userInfos$ | async as userInfos">
+      <p class="who-ami">Bienvenue {{userInfos.titre}} {{userInfos.lastname | uppercase}}
+        {{userInfos.firstname ? (userInfos.firstname.charAt(0).toUpperCase() +
+          userInfos.firstname.slice(1).toLowerCase()) : userInfos.firstname}}</p>
+
+      <mat-accordion  class="example-headers-align" multi>
+        <mat-expansion-panel style="color: #024474" [class.toggle]="isOpen" [class.isOpen]="!delayedIsOpen"
+                             [hideToggle]="true"
+                             [expanded]="isOpen"
+                             (opened)="openButton()" (closed)="closeButton()" #panel>
+          <mat-expansion-panel-header>
+            <mat-icon>account_circle</mat-icon>
+          </mat-expansion-panel-header>
+          <div (click)="showParams()" class="panel">
+            Profil
+          </div>
+          <div (click)="showEvaluation()" class="panel show-element">
+            Mes Evaluations
+          </div>
+          <div (click)="showMatiere()" class="panel show-element">
+            Mes matieres
+          </div>
+          <div (click)="showNotes()" class="panel show-element">
+            Notes
+          </div>
+          <div (click)="showEdp()" class="panel show-element">
+            Mon EDP
+          </div>
+          <div (click)="onUserList()" class="panel user-none" *ngIf="userInfos.role === 'admin'">
+            Utilisateurs
+          </div>
+          <div (click)="logout()" class="panel">
+            <div>
+              Logout
+            </div>
+            <mat-icon>logout</mat-icon>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+    <div class="dashboard-contain">
+      <app-evaluations *ngIf="evaluation" id="evaluations"></app-evaluations>
+      <app-matieres *ngIf="matiere" id="matieres"></app-matieres>
+      <app-notes *ngIf="note" id="notes"></app-notes>
+      <app-edp *ngIf="edp" id="edp"></app-edp>
+      <app-parametres *ngIf="parametres"></app-parametres>
+    </div>
+  </div>
+</div>
+
+<ng-template #snackTemplateLogout>
+  <div class="snack-bar" style="color:white">
+    <span>Deconnexion !</span>
+  </div>
+</ng-template>
+
+<ng-template #snackTemplateError class="snack-bar-error">
+  <div style="color:white">
+    <span>Oups, une erreur s'est produite !</span>
+  </div>
+</ng-template>

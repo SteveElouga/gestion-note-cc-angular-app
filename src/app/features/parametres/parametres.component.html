@@ -1,0 +1,51 @@
+<div class="container" *ngIf="loader$ | async">
+  <mat-spinner></mat-spinner>
+</div>
+<mat-card class="card">
+  <mat-card-header>
+    <mat-card-title class="card-title" style="display: flex; justify-content: start; align-items: center;">
+      <div class="entete" style="border: 2px solid #fff; border-radius: 100%; width: 40px; height: 40px; text-align:
+      center;
+      display: flex; justify-content: center; align-items: center; margin-right: 10px">
+        <mat-icon style="border-radius: 50%; ">person</mat-icon>
+      </div>
+      <div style="font-weight: 600">
+        Profil {{user.role === 'teacher' ? 'Enseignant' : user.role === 'admin' ? 'Administrateur' : 'Etudiant'}}
+        {{user.matricule | uppercase}}
+      </div>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <p>Noms : <strong>{{user.lastname | uppercase}}</strong></p>
+    <p>Prenoms : <strong>{{user.firstname}}</strong></p>
+    <p>Titre :
+      <strong>{{user.titre === 'Pr' ? 'Professeur' : user.titre==='Dr' ? 'Docteur' : 'Monsieur / Madame'}}</strong></p>
+    <p>E-mail : <strong>{{user.email}}</strong></p>
+    <p>Numero de telephone : <strong>{{user.tel}}</strong></p>
+    <p>Status du compte :
+      <strong [style]="user.status ? 'color: green' : 'color: red'" >{{user.status ? 'Actif' : 'Non actif'}}</strong></p>
+    <p>Derniere modifications : <strong>{{user.update_at | date: "dd - MM - YYYY"}}</strong></p>
+    <div *ngIf="user.role === 'teache'">
+      <mat-accordion class="example-headers-align" multi>
+        <mat-expansion-panel style="background-color: white; color: #024474" [hideToggle]="true"
+                             >
+          <mat-expansion-panel-header style="font-weight: 600">
+            Matieres enseignees
+          </mat-expansion-panel-header>
+          <p class="panel" *ngFor="let matiere of matieres">
+            {{matiere.intitule}}
+          </p>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<div class="password-modify" (click)="updatePassword()"  matTooltip="Modiier mot de passe"
+     matTooltipPosition="right">
+  <p>Modifier mot de passe</p>
+  <p>
+    <i
+      class="fa-solid fa-pen"></i>
+  </p>
+</div>

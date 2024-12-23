@@ -1,0 +1,144 @@
+.isfuture {
+  margin-top: 100px;
+  margin-bottom: 50px;
+}
+
+.isfuture p {
+  font-size: 20px;
+  color: #024474;
+  font-weight: bold;
+}
+
+.evaluations {
+  & .future {
+    background-color: transparent;
+    //background-color: rgba(0, 128, 0, 0.4);
+    cursor: pointer;
+  }
+
+  & .future:hover {
+    //background-color: transparent;
+    background-color: rgba(0, 128, 0, 0.4);
+    transition: all 0.3s ease-in-out;
+  }
+
+  & .past {
+    background-color: transparent;
+    cursor: pointer;
+  }
+
+  & .past:hover {
+    background-color: rgba(255, 0, 0, 0.4);
+    transition: all 0.3s ease-in-out;
+  }
+}
+
+mat-list {
+  padding: 0;
+}
+
+mat-list-item {
+  padding: 30px 20px !important;
+  font-weight: bold !important;
+}
+
+.table-container {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  margin-top: 100px;
+}
+
+table, .table {
+  width: 100%;
+  background-color: transparent !important;
+}
+
+table {
+  margin-top: 20px;
+}
+
+th {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+td, th {
+  color: #024474;
+}
+
+mat-paginator {
+  background-color: transparent !important;
+}
+.td{
+  display: flex
+}
+i.fa-trash {
+  font-size: 20px;
+  cursor: pointer;
+  padding: 7px;
+  border-radius: 2px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease-in-out;
+  margin: 0 5px;
+
+  &:hover{
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.4);
+    color: #e31d1d;
+    background-color: rgba(227, 29, 29, 0.22);
+    transform: translateY(-2px);
+  }
+
+  &:active{
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transform: translateY(2px);
+  }
+}
+
+i.fa-pen {
+  font-size: 20px;
+  cursor: pointer;
+  padding: 7px;
+  border-radius: 2px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease-in-out;
+  margin: 0 5px;
+
+  &:hover{
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.4);
+    color: #066206;
+    background-color: rgba(6, 98, 6, 0.2);
+    transform: translateY(-2px);
+  }
+
+  &:active{
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transform: translateY(2px);
+  }
+}
+.hiden{
+  display: none;
+}
+small{
+  color: red;
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0 40px;
+}
+
+.tableStat{
+  width: 700px;
+}
+
+.chart-container{
+  //background-color: green;
+  margin: 20px 0;
+  max-width: 400px;
+  height: 400px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

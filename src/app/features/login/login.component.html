@@ -1,0 +1,45 @@
+<div class="l-body">
+  <img src="bg2.jpg">
+  <div class="image-back" ></div>
+  <div class="contain">
+    <div class="form" [formGroup]="form">
+      <small style="color: red; font-weight: bold; margin-bottom: 10px" *ngIf="smallErrorMsg$ | async">Matricule ou mot
+                                                                                                    de passe
+                                                                               incorrect</small>
+      <mat-form-field style="width: 250px !important;">
+        <mat-label>Matricule</mat-label>
+        <input
+          matInput
+          placeholder="19G00219"
+          [formControl]="matricule"
+          required
+        />
+        <mat-hint align="start">Matricule?</mat-hint>
+        <mat-error *ngIf="matricule.invalid">{{updateErrorMessage(matricule)}}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field style="width: 250px !important;">
+        <mat-label>Mot de passe</mat-label>
+        <input
+          matInput
+          [type]="showPassword ? 'text' : 'password'"
+          placeholder="password"
+          [formControl]="password"
+          required
+        />
+        <button mat-icon-button matSuffix type="button" (click)="togglePasswordVisibility()" style="background-color:
+         transparent; border: none">
+          <mat-icon>{{showPassword? 'visibility' : 'visibility_off'}}</mat-icon>
+        </button>
+        <mat-hint align="start">Mot de passe?</mat-hint>
+        <mat-error *ngIf="password.invalid">{{updateErrorMessage(password)}}</mat-error>
+      </mat-form-field>
+      <button class="submit" type="submit" mat-raised-button [disabled]="form.invalid" (click)="onSubmit()">Se connecter</button>
+      <mat-spinner *ngIf="loader$ | async"></mat-spinner>
+    </div>
+    <div class="img">
+      <img src="pexels-mikhail-nilov-9158369.jpg">
+    </div>
+  </div>
+</div>
+

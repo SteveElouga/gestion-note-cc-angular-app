@@ -1,0 +1,318 @@
+<div class="form" *ngIf="isEvaluation" [formGroup]="form">
+  <mat-form-field>
+    <mat-label>Filere</mat-label>
+    <mat-select [formControl]="filiere">
+      <mat-option *ngFor="let filiere of filieres" [value]="filiere">{{filiere}}</mat-option>
+    </mat-select>
+    <mat-hint align="start">Pour quelle filiere?</mat-hint>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Type d'evaluation</mat-label>
+    <mat-select [formControl]="type">
+      <mat-option value="CC">Control Continu</mat-option>
+    </mat-select>
+    <mat-hint align="start">Quelle type d'evalution?</mat-hint>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Matiere</mat-label>
+    <mat-select [formControl]="matiere">
+      <mat-option *ngFor="let matiere of matieres"
+                  [value]="matiere.id">{{matiere.intitule |
+        uppercase}} --
+        {{matiere.filiere}}</mat-option>
+    </mat-select>
+    <mat-hint align="start">Choix de la matiere</mat-hint>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <mat-label>Enseignant</mat-label>
+    <input matInput maxlength="256" placeholder="Ex Maka Maka" [formControl]="enseignant"
+           readonly>
+    <mat-hint align="start">Choix de l'enseignant</mat-hint>
+  </mat-form-field>
+
+  <div>
+    <mat-form-field appearance="fill">
+      <mat-label>Choisir une date et heure</mat-label>
+      <input matInput [matDatepicker]="picker" placeholder="Date" [formControl]="date">
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker touchUi="true"></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Choisir une heure</mat-label>
+      <input matInput type="time" placeholder="Heure" [formControl]="time">
+      <mat-hint>HH:MM</mat-hint>
+    </mat-form-field>
+  </div>
+
+
+  <div>
+    <button mat-raised-button [disabled]="form.invalid" (click)="addEvaluation()" class="demo-button"
+            *ngIf="!showButtonUpdate">
+      Programmer une evaluation
+    </button>
+
+    <button mat-raised-button (click)="updateEvaluation()" class="demo-button"
+            *ngIf="showButtonUpdate">
+      Modifier cette evaluation
+    </button>
+  </div>
+</div>
+
+<div class="form" *ngIf="isNote" [formGroup]="form">
+  <mat-form-field class="example-full-width">
+    <mat-label>Note</mat-label>
+    <input matInput maxlength="20" placeholder="Ex 15" [formControl]="note">
+    <mat-hint align="start">Saisir une note</mat-hint>
+  </mat-form-field>
+  <div class="small">
+    <small>{{decimalAndMaxValidator(note)}}</small>
+  </div>
+
+  <mat-form-field class="example-full-width" *ngIf="!isNoteUpdate">
+    <mat-label>Matricule Etudiant</mat-label>
+    <input matInput placeholder="Ex 19G00219" [formControl]="etudiant">
+    <mat-hint align="start">Saisir un matricule</mat-hint>
+  </mat-form-field>
+  <div class="small">
+    <small>{{decimalAndMaxValidator(etudiant)}}</small>
+  </div>
+
+  <mat-form-field>
+    <mat-label>Evaluation</mat-label>
+    <mat-select [formControl]="evaluation">
+      <mat-option *ngFor="let evaluation of evaluationValue"
+                  [value]="evaluation.id">{{evaluation.matiere.charAt(0).toUpperCase() +
+      evaluation.matiere.slice(1).toLowerCase()}} -
+        {{evaluation.time}} -
+        {{evaluation.date | date: "dd-MM-yyyy"}}</mat-option>
+    </mat-select>
+    <mat-hint align="start">Choisir une evaluation</mat-hint>
+  </mat-form-field>
+
+  <div>
+    <button mat-raised-button [disabled]="form.invalid" (click)="addNote()" class="demo-button"
+            *ngIf="!showButtonUpdate">
+      Attribuer
+    </button>
+
+    <button mat-raised-button (click)="updateNote()" class="demo-button"
+            *ngIf="showButtonUpdate">
+      Modifier
+    </button>
+  </div>
+</div>
+
+<div class="form" *ngIf="isMatiere" [formGroup]="form">
+  <mat-form-field class="example-full-width">
+    <mat-label>Code</mat-label>
+    <input matInput maxlength="20" placeholder="Ex CODE01" [formControl]="code">
+    <mat-hint align="start">Saisir un code</mat-hint>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <mat-label>Credit</mat-label>
+    <input matInput placeholder="Ex 4" [formControl]="credits">
+    <mat-hint align="start">Saisir le nombre de credits</mat-hint>
+  </mat-form-field>
+  <div class="small">
+    <small>{{numberValidator(etudiant)}}</small>
+  </div>
+
+  <mat-form-field class="example-full-width">
+    <mat-label>Intitule</mat-label>
+    <input matInput maxlength="20" placeholder="Ex Cybersecurite" [formControl]="intitule">
+    <mat-hint align="start">Saisir un intitule</mat-hint>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Filieres</mat-label>
+    <mat-select [formControl]="filiereCtrl">
+      <mat-option *ngFor="let filiere of filieres"
+                  [value]="filiere">{{filiere}}</mat-option>
+    </mat-select>
+    <mat-hint align="start">Choisir une filiere</mat-hint>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Enseignants</mat-label>
+    <mat-select [formControl]="enseignant">
+      <mat-option *ngFor="let enseignant of enseignantList"
+                  [value]="enseignant.id">{{enseignant.titre === "Titre.PR" ? "Pr" : enseignant.titre === "Titre.DR"
+        ? "Dr" : "Mr"
+        }}
+        {{enseignant.lastname | uppercase}}</mat-option>
+    </mat-select>
+    <mat-hint align="start">Attribuer une matiere a un enseignant</mat-hint>
+  </mat-form-field>
+
+  <div>
+    <button *ngIf="!isMatiereUpdate" mat-raised-button [disabled]="form.invalid" (click)="addMatiere()"
+            class="demo-button"
+    >
+      Creer
+    </button>
+
+    <button mat-raised-button (click)="updateMatiere()" class="demo-button"
+            *ngIf="isMatiereUpdate">
+      Modifier
+    </button>
+  </div>
+</div>
+
+<div class="form" *ngIf="userUpdate" [formGroup]="form">
+  <mat-form-field>
+    <mat-label>Matricule</mat-label>
+    <input
+      matInput
+      [formControl]="matricule"
+    />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Noms</mat-label>
+    <input
+      matInput
+      [formControl]="lastname"
+    />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Prenoms</mat-label>
+    <input
+      matInput
+      [formControl]="firstname"
+    />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Email</mat-label>
+    <input
+      matInput
+      [formControl]="email"
+    />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Telephone</mat-label>
+    <input
+      matInput
+      [formControl]="tel"
+    />
+  </mat-form-field>
+
+  <div>
+    <button mat-raised-button (click)="updateUser()" class="demo-button">
+      Modifier
+    </button>
+  </div>
+</div>
+
+<div class="form" *ngIf="userPasswordUpdate" [formGroup]="form">
+  <mat-form-field>
+    <mat-label>Mot de passe</mat-label>
+    <input
+      matInput
+      [formControl]="password"
+    />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Nouveau mot de passe</mat-label>
+    <input
+      matInput
+      [formControl]="newPassword"
+    />
+  </mat-form-field>
+
+  <div>
+    <button mat-raised-button (click)="updateUserPassword()" class="demo-button">
+      Modifier
+    </button>
+  </div>
+</div>
+
+<div class="form" *ngIf="userDelete">
+  <p>Etes-vous sur de vouloir supprimer cet utilisateur de la Base de donnees?</p>
+  <p style="color: red">Cette action pourrait causer des bugs ou des incoherences dans l'application.</p>
+
+  <div>
+    <button style="background-color: rgba(255,0,0,0.2); color: red !important;" mat-raised-button (click)="deleteUser()"
+            class="demo-button">
+      Supprimer
+    </button>
+  </div>
+</div>
+
+<ng-template #snackTemplateEvaluationAdd>
+  <div class="snack-bar" style="color:white">
+    <span>Nouvelle evaluation creee avec succès !</span>
+  </div>
+</ng-template>
+
+<ng-template #snackTemplateEvaluationUpdate>
+  <div class="snack-bar" style="color:white">
+    <span>Evaluation mise a jour avec succès !</span>
+  </div>
+</ng-template>
+
+<ng-template #snackTemplateError class="snack-bar-error">
+  <div style="color:white">
+    <span>Oups, une erreur s'est produite !</span>
+  </div>
+</ng-template>
+
+<ng-template #snackTemplateErrorNote class="snack-bar-error">
+  <div style="color:white">
+    <span>Oups, une erreur s'est produite !</span>
+  </div>
+</ng-template>
+
+<ng-template #snackTemplateNoteAdd>
+  <div class="snack-bar" style="color:white">
+    <span>Nouvelle note attribuee avec succès !</span>
+  </div>
+</ng-template>
+
+<ng-template #snackTemplateNoteUpdate>
+  <div class="snack-bar" style="color:white">
+    <span>Note mise a jour avec succès !</span>
+  </div>
+</ng-template>
+
+<ng-template #snackTemplateMatiereAdd>
+  <div class="snack-bar" style="color:white">
+    <span>Nouvelle matiere ajoutee avec succès !</span>
+  </div>
+</ng-template>
+
+<ng-template #snackTemplateMatiereUpdate>
+  <div class="snack-bar" style="color:white">
+    <span>Matiere mise a jour avec succès !</span>
+  </div>
+</ng-template>
+
+<ng-template #snackTemplatePasswordUpdate>
+  <div class="snack-bar" style="color:white">
+    <span>Mot de passe a jour avec succès !</span>
+  </div>
+</ng-template>
+
+<ng-template #snackTemplateLogin>
+  <div class="snack-bar" style="color:white">
+    <span>Vous etes connectee !</span>
+  </div>
+</ng-template>
+
+<ng-template #snackTemplateLogout>
+  <div class="snack-bar" style="color:white">
+    <span>Deconnexion effectuee !</span>
+  </div>
+</ng-template>
+
+
+
