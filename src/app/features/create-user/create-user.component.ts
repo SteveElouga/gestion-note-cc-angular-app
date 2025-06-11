@@ -56,9 +56,8 @@ export class CreateUserComponent implements OnInit {
   selectedFile: File | null = null
   fileName: string = ''
 
-  @ViewChild('snackTemplateError') snackTemplateError!: TemplateRef<any>;
-  @ViewChild('snackTemplate') snackTemplate!: TemplateRef<any>;
-  @ViewChild('snackTemplateExcel') snackTemplateExcel!: TemplateRef<any>;
+  errorNotif: string = 'Une erreur s\'est produite !'
+
   @ViewChild('element') element!: ElementRef
   @ViewChild('fileCharged') fileCharged!: ElementRef
 
@@ -117,18 +116,20 @@ export class CreateUserComponent implements OnInit {
     console.log(data)
     this.service.createUser(data).subscribe({
       next: () => {
-        this.snack.openFromTemplate(this.snackTemplate, {
+        this.snack.open("Nouvel utilisateur cree !", "Fermer", {
           duration: 4000,
+          panelClass: ['success-notification'],
           verticalPosition: 'bottom',
           horizontalPosition: 'right',
         });
 
       },
       error: (err) => {
-        this.snack.openFromTemplate(this.snackTemplateError, {
+        this.snack.open(this.errorNotif, "Fermer", {
           duration: 4000,
           verticalPosition: 'bottom',
           horizontalPosition: 'right',
+          panelClass: ['error-notification'],
         });
       },
     })
@@ -176,17 +177,19 @@ export class CreateUserComponent implements OnInit {
     this.service.uploadFile(formData).subscribe({
       next: (response) =>{
         console.log('Fichier envoye avec succes:', response)
-        this.snack.openFromTemplate(this.snackTemplateExcel, {
+        this.snack.open("Operation effectuee avec succes !", "Fermer", {
           duration: 4000,
           verticalPosition: 'bottom',
+          panelClass: ['success-notification'],
           horizontalPosition: 'right',
         });
       },
       error: (err) => {
         console.log("Erreur lors de l\'envoi du fichier:", err)
-        this.snack.openFromTemplate(this.snackTemplateError, {
+        this.snack.open(this.errorNotif, "Fermer", {
           duration: 4000,
           verticalPosition: 'bottom',
+          panelClass: ['error-notification'],
           horizontalPosition: 'right',
         });
         this.service.setLoader(false)

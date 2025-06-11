@@ -19,6 +19,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {Router} from '@angular/router';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-dashboard',
@@ -44,10 +45,6 @@ import {Router} from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardComponent implements OnInit {
-  dataSource = new MatTableDataSource<EvaluationModel>();
-  displayedColumns: string[] = []
-
-
   userInfos$!: Observable<UserModel>;
   evaluation = true
   note = false
@@ -63,7 +60,9 @@ export class DashboardComponent implements OnInit {
   fromUserGestion = false;
   delayedIsOpen: boolean = false;
 
-  constructor(private service: ServiceService, private router: Router) {
+  errorNotif = "Oups, une erreur s'est produite !"
+
+  constructor(private service: ServiceService, private router: Router, public snack: MatSnackBar) {
   }
 
   ngOnInit() {
@@ -96,13 +95,31 @@ export class DashboardComponent implements OnInit {
     this.userInfos$ = this.service.userInfos$
     this.userInfos$.pipe(
       tap((res) => {
-        this.isAdmin = res.role === 'admin' ? true : false
+        this.isAdmin = res.role === 'admin'
       })
     ).subscribe()
   }
 
   logout() {
-    this.service.logout()
+    this.service.logout()?.subscribe({
+      next: () => {
+        this.snack.open("Deconnecte avec succes", "Fermer", {
+          duration: 4000,
+          panelClass: ['success-notification'],
+          verticalPosition: 'bottom',
+          horizontalPosition: 'right',
+        });
+
+      },
+      error: (err) => {
+        this.snack.open(this.errorNotif, "Fermer", {
+          duration: 3000,
+          panelClass: ['error-notification'],
+          verticalPosition: 'bottom',
+          horizontalPosition: 'right',
+        });
+      },
+    })
   }
 
   showEvaluation() {

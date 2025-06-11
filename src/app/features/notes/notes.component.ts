@@ -80,7 +80,7 @@ export class NotesComponent implements AfterViewInit, OnInit, OnDestroy {
   notificationMessage: string | null = null;
   message: string | null = null
   messsages: any[] = []
-  private data! : number[];
+  private data!: number[];
 
   constructor(private service: ServiceService, private notificationService: NotificationService, public dialog: MatDialog, private router: Router, private cdr: ChangeDetectorRef, public snack: MatSnackBar) {
   }
@@ -266,7 +266,7 @@ export class NotesComponent implements AfterViewInit, OnInit, OnDestroy {
       moyen: 0,
       bien: 0,
     };
-    const validNotes = notes.filter(note => typeof note === 'number' && !isNaN(note));
+    const validNotes = notes.filter(note => !isNaN(note));
     validNotes.forEach(note => {
       if (note <= 8) {
         result.mediocre++;
@@ -281,7 +281,8 @@ export class NotesComponent implements AfterViewInit, OnInit, OnDestroy {
     console.log(result)
     return result;
   }
-  private createChartData(result: { mediocre: number; insuffisant: number; moyen: number; bien: number }){
+
+  private createChartData(result: { mediocre: number; insuffisant: number; moyen: number; bien: number }) {
     return {
       labels: ['Médiocre', 'Insuffisant', 'Moyen', 'Bien'],
       datasets: [{
@@ -302,6 +303,7 @@ export class NotesComponent implements AfterViewInit, OnInit, OnDestroy {
       }],
     };
   }
+
   private updateChart(notesData: number[]): void {
     const result = this.analyzeNotes(notesData);
     const data = this.createChartData(result)

@@ -13,7 +13,6 @@ import {AddEvaluationModel} from '../models/addEvaluation.model';
 import {NoteModel} from '../models/note.model';
 import {AddNoteModel} from '../models/addNote.model';
 import {PasswordUpdateModele} from '../models/passwordUpdate.modele';
-import { saveAs } from 'file-saver';
 
 @Injectable({
   providedIn: 'root'
@@ -56,9 +55,6 @@ export class ServiceService {
   private _userInfos$ = new BehaviorSubject<UserModel>(this.user);
 
 
-  get matriculeNote$(){
-    return this._matriculeNote$.asObservable()
-  }
   get statNote$(): Observable<{ matiere: string, max: number, min: number, moy: number }[]> {
     return this._statNote$.asObservable()
   }
@@ -147,7 +143,7 @@ export class ServiceService {
 
   login(value: LoginModel) {
     this._loader$.next(true);
-    this.http.post<{
+    return this.http.post<{
       access_token: string;
       message: string;
       refresh_token: string;
@@ -170,9 +166,9 @@ export class ServiceService {
         console.error('Erreur de connexion :', error);
         this._loader$.next(false);
         this._smallErrorMsg$.next(true); // Affiche un message d'erreur si nécessaire
-        return of(null); // Retourne une valeur neutre pour éviter un crash
+        return throwError(error); // Retourne une valeur neutre pour éviter un crash
       })
-    ).subscribe();
+    );
   }
 
   update(data: PasswordUpdateModele | UpdateModele) {
@@ -217,7 +213,7 @@ export class ServiceService {
     }
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    this.http.get<{ message: string }>(this.apiUrl + "logout", {headers}).pipe(
+    return this.http.get<{ message: string }>(this.apiUrl + "logout", {headers}).pipe(
       tap(() => {
         // Suppression sécurisée des tokens
         this.cookie.delete('access_token');
@@ -234,7 +230,7 @@ export class ServiceService {
         this.route.navigateByUrl(''); // Redirige malgré tout
         return of(null); // Empêche un crash
       })
-    ).subscribe();
+    );
   }
 
   whoami() {

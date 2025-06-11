@@ -9,6 +9,30 @@ body {
   background-color: #E3E3E8;
 }
 
+.success-notification, .error-notification{
+  .mdc-snackbar__label, .mdc-button__label{
+    color: white;
+  }
+
+  .mat-mdc-snack-bar-action{
+    transition: all .2s ease-in-out;
+
+    &:hover{
+      transition: all .2s ease-in-out;
+
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+  }
+}
+
+.success-notification {
+  --mdc-snackbar-container-color: #024474 ;
+}
+
+.error-notification{
+  --mdc-snackbar-container-color: #a94440 ;
+}
+
 .l-body {
   width: 100%;
   height: 100%;

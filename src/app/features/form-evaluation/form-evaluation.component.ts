@@ -87,20 +87,10 @@ export class FormEvaluationComponent implements OnInit {
 
   enseignantList!: EnseignantModel[]
 
-  @ViewChild('snackTemplateEvaluationAdd') snackTemplateEvaluationAdd!: TemplateRef<any>;
-  @ViewChild('snackTemplateEvaluationUpdate') snackTemplateEvaluationUpdate!: TemplateRef<any>;
-  @ViewChild('snackTemplateNoteAdd') snackTemplateNoteAdd!: TemplateRef<any>;
-  @ViewChild('snackTemplateNoteUpdate') snackTemplateNoteUpdate!: TemplateRef<any>;
-  @ViewChild('snackTemplateMatiereAdd') snackTemplateMatiereAdd!: TemplateRef<any>;
-  @ViewChild('snackTemplateMatiereUpdate') snackTemplateMatiereUpdate!: TemplateRef<any>;
-
-  @ViewChild('snackTemplatePasswordUpdate') snackTemplatePasswordUpdate!: TemplateRef<any>;
-  @ViewChild('snackTemplateLogin') snackTemplateLogin!: TemplateRef<any>;
-  @ViewChild('snackTemplateLogout') snackTemplateLogout!: TemplateRef<any>;
-  @ViewChild('snackTemplateError') snackTemplateError!: TemplateRef<any>;
-  @ViewChild('snackTemplateErrorNote') snackTemplateErrorNote!: TemplateRef<any>;
   password!: FormControl;
   newPassword!: FormControl;
+
+  errorNotif = "Oups, une erreur s'est produite !"
 
 
   constructor(private formBuilder: FormBuilder, public dialog: MatDialog, private service: ServiceService, public snack: MatSnackBar, @Inject(MAT_DIALOG_DATA) public data: any) {
@@ -325,16 +315,18 @@ export class FormEvaluationComponent implements OnInit {
     }
     this.service.addMatiere(data).subscribe({
       next: () => {
-        this.snack.openFromTemplate(this.snackTemplateMatiereAdd, {
+        this.snack.open("Ajout d'une nouvelle matiere avec succes", "Fermer", {
           duration: 4000,
+            panelClass: ['success-notification'],
           verticalPosition: 'bottom',
           horizontalPosition: 'right',
         });
 
       },
       error: (err) => {
-        this.snack.openFromTemplate(this.snackTemplateError, {
+        this.snack.open(this.errorNotif, "Fermer", {
           duration: 4000,
+          panelClass: ['error-notification'],
           verticalPosition: 'bottom',
           horizontalPosition: 'right',
         });
@@ -355,16 +347,18 @@ export class FormEvaluationComponent implements OnInit {
     this.service.addEvaluation(data).subscribe(
       {
         next: () => {
-          this.snack.openFromTemplate(this.snackTemplateEvaluationAdd, {
+          this.snack.open("Ajout d'une nouvelle evaluation avec succes", "Fermer", {
             duration: 4000,
+            panelClass: ['success-notification'],
             verticalPosition: 'bottom',
             horizontalPosition: 'right',
           });
 
         },
         error: (err) => {
-          this.snack.openFromTemplate(this.snackTemplateError, {
+          this.snack.open(this.errorNotif, "Fermer",{
             duration: 4000,
+            panelClass: ['error-notification'],
             verticalPosition: 'bottom',
             horizontalPosition: 'right', // Classe CSS pour les erreurs
           });
@@ -386,20 +380,20 @@ export class FormEvaluationComponent implements OnInit {
     console.log(data)
     this.service.updateEvaluation(this.id, data).subscribe({
       next: () => {
-        this.snack.openFromTemplate(this.snackTemplateEvaluationUpdate, {
+        this.snack.open("Evaluation mise a jour avec succès !", "Fermer", {
           duration: 4000,
+          panelClass: ['success-notification'],
           verticalPosition: 'bottom',
           horizontalPosition: 'right',
-          panelClass: 'snack-bar-success'
         });
 
       },
       error: (err) => {
-        this.snack.openFromTemplate(this.snackTemplateError, {
+        this.snack.open(this.errorNotif, "Fermer", {
           duration: 3000,
+          panelClass: ['error-notification'],
           verticalPosition: 'bottom',
           horizontalPosition: 'right',
-          panelClass: ['snack-bar-error'], // Classe CSS pour les erreurs
         });
       },
     })
@@ -415,16 +409,18 @@ export class FormEvaluationComponent implements OnInit {
     }
     this.service.updateNote(this.id, data).subscribe({
       next: () => {
-        this.snack.openFromTemplate(this.snackTemplateNoteUpdate, {
+        this.snack.open("Note mise a jour avec succès !", "Fermer", {
           duration: 4000,
+          panelClass: ['success-notification'],
           verticalPosition: 'bottom',
           horizontalPosition: 'right',
         });
 
       },
       error: (err) => {
-        this.snack.openFromTemplate(this.snackTemplateError, {
+        this.snack.open("Une erreur est survenue lors de la mise a jour de cette note !", "Fermer", {
           duration: 4000,
+          panelClass: ['error-notification'],
           verticalPosition: 'bottom',
           horizontalPosition: 'right',
         });
@@ -443,16 +439,18 @@ export class FormEvaluationComponent implements OnInit {
     data.tel = this.form.value.tel
     this.service.updateUser(this.idUser, data).subscribe({
       next: () => {
-        this.snack.openFromTemplate(this.snackTemplateNoteUpdate, {
+        this.snack.open("Informations mises a jour avec succes !", "Fermer", {
           duration: 4000,
+          panelClass: ['success-notification'],
           verticalPosition: 'bottom',
           horizontalPosition: 'right',
         });
 
       },
       error: (err) => {
-        this.snack.openFromTemplate(this.snackTemplateError, {
+        this.snack.open(this.errorNotif, "Fermer", {
           duration: 4000,
+          panelClass: ['error-notification'],
           verticalPosition: 'bottom',
           horizontalPosition: 'right',
         });
@@ -470,16 +468,17 @@ export class FormEvaluationComponent implements OnInit {
     }
     this.service.addNote(data).subscribe({
       next: () => {
-        this.snack.openFromTemplate(this.snackTemplateNoteAdd, {
+        this.snack.open("Nouvelle note attribuee avec succès !", "Fermer", {
           duration: 4000,
+          panelClass: ['success-notification'],
           verticalPosition: 'bottom',
           horizontalPosition: 'right',
         });
       },
       error: (err) => {
-        console.log('erreur')
-        this.snack.openFromTemplate(this.snackTemplateErrorNote, {
+        this.snack.open("Cet etudiant possede deja une note !", "Fermer", {
           duration: 4000,
+          panelClass: ['error-notification'],
           verticalPosition: 'bottom',
           horizontalPosition: 'right',
         });
@@ -511,15 +510,17 @@ export class FormEvaluationComponent implements OnInit {
     }
     this.service.updateMatiere(this.id, data).subscribe({
       next: () => {
-        this.snack.openFromTemplate(this.snackTemplateMatiereUpdate, {
+        this.snack.open("Matiere mise a jour avec succès !", "Fermer", {
           duration: 4000,
+          panelClass: ['success-notification'],
           verticalPosition: 'bottom',
           horizontalPosition: 'right',
         });
       },
       error: (err) => {
-        this.snack.openFromTemplate(this.snackTemplateError, {
+        this.snack.open(this.errorNotif, "Fermer", {
           duration: 4000,
+          panelClass: ['error-notification'],
           verticalPosition: 'bottom',
           horizontalPosition: 'right',
         });
@@ -532,11 +533,21 @@ export class FormEvaluationComponent implements OnInit {
   deleteUser() {
     this.service.deleteUser(this.idUser).subscribe({
       next: () => {
-        console.log(`Utilisateur avec l'ID ${this.idUser} supprimée.`)
+        this.snack.open("Operation effectuee avec success !", "Fermer", {
+          duration: 4000,
+          panelClass: ['success-notification'],
+          verticalPosition: 'bottom',
+          horizontalPosition: 'right',
+        });
       },
       error: (err) => {
-        console.error('Erreur lors de la suppression : ', err)
-      }
+        this.snack.open(this.errorNotif, "Fermer", {
+          duration: 4000,
+          panelClass: ['error-notification'],
+          verticalPosition: 'bottom',
+          horizontalPosition: 'right',
+        });
+      },
     })
     this.dialog.closeAll()
   }
@@ -549,15 +560,16 @@ export class FormEvaluationComponent implements OnInit {
       next: (response) => {
         console.log(response?.verified)
         if (response?.verified) {
-          this.snack.openFromTemplate(this.snackTemplatePasswordUpdate, {
+          this.snack.open("Mot de passe mis a jour avec succes !", "Fermer", {
             duration: 4000,
             verticalPosition: 'bottom',
+            panelClass: ['success-notification'],
             horizontalPosition: 'right',
           });
-        }
-        else {
-          this.snack.openFromTemplate(this.snackTemplateError, {
+        } else {
+          this.snack.open(this.errorNotif, "Fermer", {
             duration: 4000,
+            panelClass: ['error-notification'],
             verticalPosition: 'bottom',
             horizontalPosition: 'right',
           });
@@ -565,9 +577,10 @@ export class FormEvaluationComponent implements OnInit {
 
       },
       error: (err) => {
-        this.snack.openFromTemplate(this.snackTemplateError, {
+        this.snack.open(this.errorNotif, "Fermer", {
           duration: 4000,
           verticalPosition: 'bottom',
+          panelClass: ['error-notification'],
           horizontalPosition: 'right',
         });
       },
